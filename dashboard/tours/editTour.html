@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+        <title> Edit Tour | Dashboard</title>
+        <!-- icon link  -->
+      <link rel="icon" href="/images/logo.png">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="/dashboard/css/bootstrap.min.css">
+        <!----css3---->
+        <link rel="stylesheet" href="/dashboard/css/custom.css">
+    <!--google material icon-->
+      <link href="https://fonts.googleapis.com/css2?family=Material+Icons"rel="stylesheet">
+      <!-- font awesome  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+ </head>
+<body>
+      
+<div class="wrapper">
+
+
+    <div class="body-overlay"></div>
+    
+    <!-------------------------sidebar------------>
+         <!-- Sidebar  -->
+     <nav id="sidebar">
+      <div class="sidebar-header">
+          <h3><img src="/images/logo.png" id="img-fluid"/></h3>
+      </div>
+      <ul class="list-unstyled components">
+          <li  class="">
+              <a href="/dashboard/home.html" class="dashboard"><i class="material-icons">dashboard</i>
+              <span> Home </span></a>
+          </li>
+          <li  class="">
+              <a href="/dashboard/des/destinations.html" class="dashboard"><i class="material-icons">dashboard</i>
+              <span>Destinations</span></a>
+          </li>
+          <li  class="">
+              <a href="/dashboard/user/guids.html" class="dashboard"><i class="material-icons">dashboard</i>
+              <span> Tour guids </span></a>
+          </li>
+          <li  class="">
+              <a href="/dashboard/user/User.html" class="dashboard"><i class="material-icons">dashboard</i>
+              <span>Users</span></a>
+          </li>
+          <li  class="">
+              <a href="/dashboard/tours/jordanTour.html" class="dashboard"><i class="material-icons">dashboard</i>
+              <span>Jordan Tours</span></a>
+          </li>
+          <li  class="">
+              <a href="/dashboard/tours/palestineTour.html" class="dashboard"><i class="material-icons">dashboard</i>
+              <span>Palestine Tours</span></a>
+          </li>
+          <li  class="">
+            <a href="/dashboard/booking.html" class="dashboard"><i class="material-icons">dashboard</i>
+            <span> Booking </span></a>
+        </li>
+          <li  class="">
+            <a href="/dashboard/adminProfile.html" class="dashboard"><i class="material-icons">dashboard</i>
+            <span> Admin Profile</span></a>
+        </li>
+         
+      </ul>
+
+     
+  </nav>
+  <div id="content">
+  <div class="top-navbar">
+    <div class="xp-topbar">
+
+          <!-- Start XP Row -->
+          <div class="row"> 
+              <!-- Start XP Col -->
+              <div class="col-2 col-md-1 col-lg-1 order-2 order-md-1 align-self-center">
+                  <div class="xp-menubar">
+                         <span class="material-icons text-white">signal_cellular_alt
+           </span>
+                   </div>
+              </div> 
+              <!-- End XP Col -->
+<!-- Start XP Col -->
+<div class="col-md-5 col-lg-3 order-3 order-md-2">
+<div class="xp-searchbar">
+  
+</div>
+</div>
+<!-- End XP Col -->
+
+
+<div class=" logout col-10 col-md-6 col-lg-8 order-1 order-md-3">
+<button id="LOG">Logout</button>
+</div>
+          </div> 
+          <!-- End XP Row -->
+
+      </div>
+   <div class="xp-breadcrumbbar text-center">
+          <h4 class="page-title">Dashboard</h4>  
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Edit Tour </a></li>
+              <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+            </ol>                
+      </div>
+
+ </div>
+ <div class="main-content">
+    <div class="row">
+        <div class="container">
+            <form id="userForm">
+                <h2> Edit Tour</h2>
+                <label>Tour name:</label>
+                <input type="text" id="name" placeholder="Enter Tour name">
+          
+                <label for="images">Image :</label>
+                <input type="file" name="images[]" multiple accept="image/*" id="images" placeholder="Select Image(s)">
+                <label>Date:</label>
+                <input type="date" id="date"placeholder="Enter Date">
+          
+                <label>Description:</label>
+                <input type="text" id="description"  placeholder="Enter Description">
+
+                <label>Price:</label>
+                <input type="number" id="price"  placeholder="Enter price number">
+
+                <label> Destination ID: </label>
+                <input type="number" id="destination_id"  placeholder=" 1: Jordan , 2:Palestine">
+
+                <label>Seats number:</label>
+                <input type="number" id="seats"  placeholder="Enter Seats number">
+
+                <label> Tour guide ID:</label>
+                <input type="number" id="tour_guide_id"  placeholder="Enter Tour guide ID number">
+
+                <div>
+                <button class="btn-form"  type="submit"> Update </button>
+                <button class="btn-form" type="button" onclick="cancel()">Cancel</button>
+                </div>
+
+              </form>
+        </div>
+
+    </div>
+ </div>
+</div>
+</div>
+
+<script src="/dashboard/js/jquery-3.3.1.slim.min.js"></script>
+<script src="/dashboard/js/popper.min.js"></script>
+<script src="/dashboard/js/bootstrap.min.js"></script>
+<script src="/dashboard/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".xp-menubar").on('click',function(){
+          $('#sidebar').toggleClass('active');
+          $('#content').toggleClass('active');
+        });
+        
+         $(".xp-menubar,.body-overlay").on('click',function(){
+           $('#sidebar,.body-overlay').toggleClass('show-nav');
+         });
+        
+      });
+</script>
+<script>
+         /// Logout button:
+  let logoutButtonNav = document.getElementById('LOG');
+  const isloggedin = sessionStorage.getItem("isLoggedIn");
+  if (isloggedin == 'true') {
+    logoutButtonNav.addEventListener('click', (e) => {
+      window.location.href = '/index/index.html';
+      sessionStorage.clear();
+    });
+  }
+
+
+
+/// Cancel button:
+function cancel(){
+    window.history.back();
+}
+
+
+/// local storage method to update:
+// get data from local storage and put it in the inputs
+document.addEventListener('DOMContentLoaded', function () {
+    // Retrieve tour data from local storage
+    let editedTourData = JSON.parse(localStorage.getItem('editedTourData'));
+
+    if (editedTourData) {
+      
+     name = document.getElementById('name').value;
+     date = document.getElementById('date').value;
+     destination_id = document.getElementById('destination_id').value;
+     description = document.getElementById('description').value;
+     price = document.getElementById('price').value;
+     seats = document.getElementById('seats').value;
+     tour_guide_id = document.getElementById('tour_guide_id').value;
+    }
+    let imageInput = document.getElementById('images').files;
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('date', date);
+    formData.append('destination_id', destination_id);
+    formData.append('description', description);
+    formData.append('price', price);
+    formData.append('seats', seats);
+    formData.append('tour_guide_id', tour_guide_id);
+
+    for (let i = 0; i < imageInput.length; i++) {
+        formData.append('images[]', imageInput[i]);
+    }
+
+
+});
+
+
+/// Update Tour data
+document.addEventListener('DOMContentLoaded', function () {
+    // Retrieve tour data from local storage
+    let editedTourData = JSON.parse(localStorage.getItem('editedTourData'));
+
+    if (editedTourData) {
+        document.getElementById('name').value = editedTourData.name;
+        document.getElementById('date').value = editedTourData.date;
+        document.getElementById('destination_id').value = editedTourData.destination_id;
+        document.getElementById('description').value = editedTourData.description;
+        document.getElementById('price').value = editedTourData.price;
+        document.getElementById('seats').value = editedTourData.seats;
+        document.getElementById('tour_guide_id').value = editedTourData.tour_guide_id;
+
+        // Assign the tour ID to a variable
+        id = editedTourData.id; // Make sure you have 'id' defined globally
+    }
+});
+
+// Update Tour data
+document.getElementById('userForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    let editedTourData = JSON.parse(localStorage.getItem('editedTourData'));
+
+    if (!editedTourData) {
+        console.error('No user data found in local storage');
+        return;
+    }
+
+    let nameInput = document.getElementById('name').value;
+    let dateInput = document.getElementById('date').value;
+    let destinationInput = document.getElementById('destination_id').value;
+    let descriptionInput = document.getElementById('description').value;
+    let priceInput = document.getElementById('price').value;
+    let seatsInput = document.getElementById('seats').value;
+    let tourGuide = document.getElementById('tour_guide_id').value;
+
+    let data = {
+        name: nameInput,
+        image: imageInput,
+        date: dateInput,
+        destination_id: destinationInput,
+        description: descriptionInput,
+        price: priceInput,
+        seats: seatsInput,
+        tour_guide_id: tourGuide,
+    };
+
+    fetch(`http://localhost/tourism/t_api/update_tour.php?id=${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(responseData => {
+            alert('User data updated successfully!');
+            localStorage.removeItem('editedTourData');
+            window.location.href = './jordanTour.html';
+        })
+        .catch(error => {
+            console.error('Error making PUT request:', error);
+        });
+});
+
+function cancel() {
+    window.history.back();
+}
+
+</script>
+
+<!-- <script>
+
+    // in edit user page
+    // update using urlParams:
+    document.addEventListener('DOMContentLoaded', function () {
+    // Retrieve parameters from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    const username = urlParams.get('username');
+    const email = urlParams.get('email');
+    const phone_number = urlParams.get('phone_number');
+    const role = urlParams.get('role');
+
+    // Populate the form
+    document.getElementById('username').value = username || '';
+    document.getElementById('email').value = email || '';
+    document.getElementById('phone_number').value = phone_number || '';
+    document.getElementById('role').value = role || '';
+});
+
+
+/// Update User data
+document.getElementById('userForm').addEventListener('submit', function (event) {
+    event.preventDefault(); 
+    const urlParams = new URLSearchParams(window.location.search);
+    let id = urlParams.get('id');
+    let username = document.getElementById('username').value;
+    let email = document.getElementById('email').value;
+    let phone_number = document.getElementById('phone_number').value;
+    let role = document.getElementById('role').value;
+
+     // Construct the data object to be sent in the request
+     let data = {
+        id: id,
+        username: username,
+        email: email,
+        phone_number: phone_number,
+        role: role
+    };
+
+    fetch(`http://localhost/tourism/t_api/userupdate.php?id=${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(responseData => {
+        alert('User data updated successfully!');
+        window.location.href = './User.html ';
+    })
+    .catch(error => {
+        console.error('Error making PUT request:', error);
+    });
+})
+</script> -->
+
+</body>

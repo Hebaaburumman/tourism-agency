@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> Al Bosta | Profile</title>
+     <!-- style sheet -->
+    <link rel="stylesheet" href="./profile.css">
+    <!-- icon link  -->
+    <link rel="icon" href="/images/logo.png">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- bootstrap link -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+      img{
+        width: 40px;
+        height: 40px;
+      }
+     </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="/index/index.html"><img src="/images/logo.png" alt=" Al Bosta Logo"></a>
+        <div class="menu-btn">
+ 
+        </div>
+        <div class="navigation">
+          <div class="navigation-items">
+              <a href="/index/index.html"> Home </a>
+              <a href="/about/about.html"> About us </a>
+              <a id="drop"> Destinations </a>
+                <ul class="drop-down">
+                  <li><a href="/jordan/jordan.html" style="color: black;"> Jordan</a></li>
+                  <li><a href="/palestine/palestine.html"> Palestine</a></li>
+                </ul>
+              <a href="/contact/contact.html"> Contact us </a>
+              <a id="sigupp"> Sign Up </a>
+              <button id="loginn">Login </button>
+          </div>
+        </div>
+    </header>
+
+    <section id="home">
+        <h1> <span id="user"></span>'s profile </h1>
+    </section>
+    <div class="backdrop" id="backdrop"></div>
+
+    <section class="profile-info">
+        <div class="user-info">
+          
+            <h3 >Username :</h3>
+            <p id="username">Reem</p>
+
+            <h3 >Email : </h3>
+            <p id="email">Reem@gmail.com</p>
+
+            <!-- <h3 >Password :</h3> -->
+            <input  id="password" type="hidden">
+           
+
+            <h3 >Phone Number :</h3>
+            <p id="phone_number">077777777</p>
+
+            <!-- <h3 >Role :</h3> -->
+            <input type="hidden" id="role">
+            <button id="editprofile" type="button">Edit Profile</button>
+        </div>
+
+
+
+    <!-- booking cart -->
+     <div class="Cart-Container">
+        <h2> Your Booking table</h2>
+        <table>
+          <thead>
+            <tr>
+              <th> Tour name</th>
+              <th> Image </th>
+              <th> Date</th>
+              <th> Description</th>
+              <th> Price </th>
+              <th> Booking Date</th>
+              <th> Action </th>
+            </tr>
+          </thead>
+          <tbody id="book_table"></tbody>
+
+         
+        </table>
+     </div>
+            <!-- <tr>
+              <td> Petra</td>
+              <td> Image </td>
+              <td> 20/12/2023 </td>
+              <td> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quae excepturi odit inventore natus? Impedit, labore! Illo cum qui doloribus facere sint deserunt expedita et at, magnam, a recusandae quos beatae? </td>
+              <td> 20 JD per person </td>
+              <td> Israa </td>
+              <td> 5/12/2023 </td>
+            </tr> -->
+    </section>
+    <div class="popup" id="popup">
+        <form id="userForm">
+            <label>Username:</label>
+            <input type="text" id="usernameInput" placeholder="Enter Username">
+            
+            <label >Email:</label>
+            <input type="email" id="emailInput" placeholder="Enter Email Address">
+
+            <label>Password:</label>
+            <input type="password" id="passwordInput"placeholder="Enter Password">
+            <span>"Please enter at least 8 characters with a number, symbol, lowercase, and uppercase letters!"</span>
+            
+            <label>Phone Number:</label>
+            <input type="number" id="phone_numberInput"  placeholder="Enter Phone number">
+            <span>"Please Enter Phone number with 10 numbers start with 077!"</span>
+
+            
+            <button type="submit" id="update"> Update </button>
+          
+
+        </form>
+        
+    </div>
+
+  
+<!-- Footer -->
+<footer class="section-p1 d-flex" id="footerone">
+    <div class="col">
+      <img class="logo" src="/images/logo.png"  alt="AlBosta logo">
+      <h4>Contact</h4>
+      <p><Strong>Address:</Strong> Salt, Jordan</p>
+      <p><strong>Phone</strong>0096777777777</p>
+      <p><strong>Hours</strong> 9:00 - 18:00, Sat - Thu</p>
+      <div class="follow">
+        <h4>Follow Us</h4>
+        <div class="icon">
+          <i class="fa-brands fa-facebook"></i>
+          <i class="fa-brands fa-twitter"></i>
+          <i class="fa-brands fa-youtube"></i>
+          <i class="fa-brands fa-instagram"></i>
+          <i class="fa-solid fa-phone"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <h4>About</h4>
+      <a href="/about/about.html">About Us</a>
+      <a href="#">Privacy Policy</a>
+      <a href="/contact/contact.html">Contact Us</a>
+    </div>
+    <div class="col">
+      <h4>My Account</h4>
+      <a href="">Sign Up</a>
+      <a href="#">Help</a>
+    </div>
+    <div class="col install">
+      <p>Secured Payment Gateways</p>
+      <img src="/images/pay.png" alt="">
+    </div>
+    <div class="copyright">
+      <p>© Copyright to Al-Bosta Tourism Agency</p>
+    </div>
+  </footer>
+<script src="./profile.js"></script>
+
+</body>
