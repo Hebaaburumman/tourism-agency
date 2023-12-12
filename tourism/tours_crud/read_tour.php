@@ -1,6 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
+header("Access-Control-Allow-Methods: GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 include '../connect.php';
@@ -9,7 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['id'])) {
         // Retrieve a specific tour by ID
         $tourId = $_GET['id'];
-        $sql = "SELECT * FROM tour WHERE id = $tourId";
+        $sql = "SELECT tour.*, users.username AS tour_guide_username
+                FROM tour
+                INNER JOIN users ON tour.tour_guide_id = users.id
+                WHERE tour.id = $tourId";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
@@ -21,7 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     } elseif (isset($_GET['destination_id'])) {
         // Retrieve tours based on destination_id
         $destinationId = $_GET['destination_id'];
-        $sql = "SELECT * FROM tour WHERE destination_id = $destinationId";
+        $sql = "SELECT tour.*, users.username AS tour_guide_username
+                FROM tour
+                INNER JOIN users ON tour.tour_guide_id = users.id
+                WHERE tour.destination_id = $destinationId";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
@@ -42,4 +48,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 $conn->close();
 ?>
-

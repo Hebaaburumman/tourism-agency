@@ -30,7 +30,7 @@ if (!empty($data)) {
             '{$hashedPassword}',
             '{$data['email']}',
             '{$data['phone_number']}',
-            '$role'
+            '{$data['role']}'
         )";
 
         if ($conn->query($sql) === TRUE) {

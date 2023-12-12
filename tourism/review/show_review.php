@@ -9,7 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['id'])) {
         // Retrieve a specific review by ID
         $reviewId = $_GET['id'];
-        $sql = "SELECT * FROM reviews WHERE id = $reviewId";
+        $sql = "SELECT reviews.*, users.username 
+                FROM reviews 
+                JOIN users ON reviews.user_id = users.id
+                WHERE reviews.id = $reviewId";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
@@ -19,8 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             echo json_encode(array("message" => "Review with the provided ID not found."));
         }
     } else {
-        // Retrieve all reviews
-        $sql = "SELECT * FROM reviews";
+        // Retrieve the last 4 reviews
+        $sql = "SELECT reviews.*, users.username 
+                FROM reviews 
+                JOIN users ON reviews.user_id = users.id
+                ORDER BY reviews.id DESC
+                LIMIT 4";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
@@ -39,5 +46,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 $conn->close();
 ?>
-
 
