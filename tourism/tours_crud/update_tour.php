@@ -1,56 +1,97 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
+header("Access-Control-Allow-Methods: PUT");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
-include '../connect.php';
+$conn = mysqli_connect("localhost", "root", "", "tourism_agency");
 
-if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-    // Extract tour ID from the URL
-    $tourId = isset($_GET['id']) ? $_GET['id'] : null;
+if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+    // Retrieve raw input data
+    $input_data = file_get_contents("php://input");
 
-    if ($tourId !== null) {
-        // Check if the tour exists
-        $checkTourQuery = "SELECT * FROM tour WHERE id = $tourId"; // Assuming the table name for tours is 'tour'
-        $checkTourResult = $conn->query($checkTourQuery);
-
-        if ($checkTourResult->num_rows > 0) {
-            $existingData = $checkTourResult->fetch_assoc();
-
-            $data = json_decode(file_get_contents('php://input'), true);
-
-            $updateFields = array();
-
-            // Define the columns in the 'tour' table that you want to allow updating
-            $allowedColumns = ['name', 'image', 'date', 'destination_id', 'description', 'price', 'seats', 'tour_guide_id'];
-
-            // Loop through the allowed columns and construct the update query
-            foreach ($allowedColumns as $column) {
-                if (isset($data[$column]) && $column !== 'id') {
-                    $updateFields[] = "$column = '" . ($data[$column] !== null ? $data[$column] : $existingData[$column]) . "'";
-                }
-            }
-
-            if (!empty($updateFields)) {
-                $updateQuery = "UPDATE tour SET " . implode(', ', $updateFields) . " WHERE id = $tourId"; // Assuming the table name for tours is 'tour'
-
-                if ($conn->query($updateQuery) === TRUE) {
-                    echo json_encode(array("message" => "Tour details updated successfully."));
-                } else {
-                    echo json_encode(array("error" => "Error updating tour details: " . $conn->error));
-                }
-            } else {
-                echo json_encode(array("message" => "No fields to update provided."));
-            }
-        } else {
-            echo json_encode(array("error" => "Tour not found."));
-        }
-    } else {
-        echo json_encode(array("error" => "Please provide the tour ID in the URL."));
+    if (!$input_data) {
+        echo json_encode(['message' => 'No data received']);
+        exit;
     }
-} else {
-    echo json_encode(array("error" => "Invalid request method. Please use PUT method."));
-}
 
-$conn->close();
+    $data = json_decode($input_data, true);
+
+    if ($data === null || !isset($data['id'])) {
+        echo json_encode(['message' => 'Invalid JSON data or missing ID']);
+        exit;
+    }
+
+    // Extract data from JSON
+    $id = $data['id'];
+
+    // Fetch existing data based on ID
+    $querySelect = 'SELECT * FROM tour WHERE id = ?';
+    $stmtSelect = $conn->prepare($querySelect);
+    $stmtSelect->bind_param('i', $id);
+    $stmtSelect->execute();
+
+    $resultSelect = $stmtSelect->get_result();
+    $existingData = $resultSelect->fetch_assoc();
+
+    $stmtSelect->close();
+
+    // Check if the record exists
+    if (!$existingData) {
+        echo json_encode(['message' => 'Tour not found']);
+        exit;
+    }
+
+    // Use existing data to populate form fields if not provided in the request
+    $name = isset($data['name']) ? $data['name'] : $existingData['name'];
+    $description = isset($data['description']) ? $data['description'] : $existingData['description'];
+    $destination_id = isset($data['destination_id']) ? $data['destination_id'] : $existingData['destination_id'];
+    $date = isset($data['date']) ? $data['date'] : $existingData['date'];
+    $price = isset($data['price']) ? $data['price'] : $existingData['price'];
+    $seats = isset($data['seats']) ? $data['seats'] : $existingData['seats'];
+    $tour_guide_id = isset($data['tour_guide_id']) ? $data['tour_guide_id'] : $existingData['tour_guide_id'];
+
+    // Handle multiple image upload
+    $existingImages = []; // You might need to fetch existing images if stored
+
+    // Handle image upload only if new images are provided
+    if (!empty($data['images'])) {
+        $imageArray = array();
+
+        foreach ($data['images'] as $key => $value) {
+            $img_name = time() . '_' . $value['name'];
+            $img_path = './tourism-agency/tourism/src/' . $img_name;
+
+            file_put_contents($img_path, base64_decode($value['data']));
+
+            // Add the image name to the array
+            $imageArray[] = $img_name;
+        }
+
+        // Check if images were uploaded
+        $img = (!empty($imageArray)) ? implode(', ', $imageArray) : null;
+    } else {
+        // Use existing images if no new images are provided
+        $img = $existingData['image'];
+    }
+
+    // Update query
+    $query = 'UPDATE tour SET name=?, image=?, date=?, destination_id=?, description=?, price=?, seats=?, tour_guide_id=? WHERE id=?';
+    $stmt = $conn->prepare($query);
+
+    $stmt->bind_param('sssissiii', $name, $img, $date, $destination_id, $description, $price, $seats, $tour_guide_id, $id);
+
+    $stmt->execute();
+
+    if ($stmt->affected_rows > 0) {
+        echo json_encode(['message' => 'Tour updated successfully']);
+    } else {
+        echo json_encode(['message' => 'Failed to update the tour']);
+    }
+
+    $stmt->close();
+} else {
+    echo json_encode(['message' => 'Incorrect request method']);
+}
 ?>
+
+
